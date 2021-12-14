@@ -1,3 +1,10 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+print("☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ")
+print(" __          __        _   _   ")
+print(" \ \        / /       | | | |  ")
+print("  \ \  /\  / /__  __ _| |_| |__   ___ _ __   _ __  _   _ ")
+print("   \ \/  \/ / _ \/ _` | __| '_ \ / _ \ '__| | '_ \| | | |")
+print("    \  /\  /  __/ (_| | |_| | | |  __/ |    | |_) | |_| |")
+print("     \/  \/ \___|\__,_|\__|_| |_|\___|_|    | .__/ \__, |")
+print("                                            | |     __/ |")
+print("                                            |_|    |___/ \n")
+print("☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ")
