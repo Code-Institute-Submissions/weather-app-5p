@@ -52,17 +52,17 @@ class Weather:
 
         return self.get_json_response(request_url)
 
-    def get_single_forecast(self, country, town, date):
-        """ note that without subscription cannot go further than 5days """
+    def get_full_forecast(self, country, town, date):
+        """ date must be parsed first """
 
         # given date in unix time
-        param_date = datetime.strptime(date, "%d/%m/%Y")
+        date = datetime.strptime(date, "%d/%m/%Y")
         # today in unix time
-        today_timestamp = int(datetime.timestamp(datetime.now()))
+        today = int(datetime.timestamp(datetime.now()))
         # 5 day cutoff for free api use, 432000 = 5days in seconds
-        cutoff_timestamp = today_timestamp + 432000
+        cutoff = today + 432000
 
-        if int(param_date.timestamp()) not in range(today_timestamp, cutoff_timestamp):
+        if int(date.timestamp()) not in range(today, cutoff):
             print("Date surpasses 5 day limit")
             return
 
@@ -72,17 +72,21 @@ class Weather:
             f'?q={town},{country}&mode=json'
             '&units=metric'
         )
-        values = self.get_json_response(request_url)
+        return self.get_json_response(request_url)["list"]
+
+    def get_single_forecast(self, country, town, date):
+        """ note that without subscription cannot go further than 5days """
+        values = self.get_full_forecast(country, town, date)
+
+        # given date in unix time
+        param_date = datetime.strptime(date, "%d/%m/%Y")
+
         return_values = []
         date_format = "%Y-%m-%d %H:%M:%S"
 
-        for i in values["list"]:
+        for i in values:
             if (datetime.strptime(i["dt_txt"], date_format).timetuple().tm_mday
                     == param_date.timetuple().tm_mday):
                 return_values.append(i)
 
         return return_values
-
-# from weather_wrapper import *
-# x = Weather("488f542cdab9f254e7b00827c439d379")
-# y = x.get_single_forecast("united kingdom","crawley","16/12/2021")
