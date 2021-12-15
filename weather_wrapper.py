@@ -7,7 +7,7 @@ import time
 class Weather:
     """ Class for handling requests to the https://openweathermap.org/ api """
 
-    base_url = "http://api.openweathermap.org/data/2.5/"
+    BASE_URL = "http://api.openweathermap.org/data/2.5/"
 
     def __init__(self, api_key):
         self.api_key = api_key
@@ -22,9 +22,10 @@ class Weather:
 
     def get_current_weather(self, country, town):
         request_url = (
-            self.base_url +
+            self.BASE_URL +
             'weather' +
             f'?q={town},{country}'
+            '&units=metric'
         )
         return self.get_json_response(request_url)
 
@@ -42,7 +43,7 @@ class Weather:
         current_weather = self.get_current_weather(country, town)
 
         request_url = (
-            self.base_url +
+            self.BASE_URL +
             'onecall/timemachine'
             f'?lat={current_weather["coord"]["lat"]}'
             f'&lon={current_weather["coord"]["lon"]}'
@@ -67,7 +68,7 @@ class Weather:
             return
 
         request_url = (
-            self.base_url +
+            self.BASE_URL +
             'forecast'
             f'?q={town},{country}&mode=json'
             '&units=metric'
