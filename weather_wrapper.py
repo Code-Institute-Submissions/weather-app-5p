@@ -53,19 +53,11 @@ class Weather:
 
         return self.get_json_response(request_url)
 
-    def get_full_forecast(self, country, town, date):
-        """ date must be parsed first """
-
-        # given date in unix time
-        date = datetime.strptime(date, "%d/%m/%Y")
-        # today in unix time
-        today = int(datetime.timestamp(datetime.now()))
-        # 5 day cutoff for free api use, 432000 = 5days in seconds
-        cutoff = today + 432000
-
-        if int(date.timestamp()) not in range(today, cutoff):
-            print("Date surpasses 5 day limit")
-            return
+    def get_full_forecast(self, country, town):
+        """ 
+        Gets a 5day forecast from today 
+        https://openweathermap.org/forecast5 
+        """
 
         request_url = (
             self.BASE_URL +
@@ -77,7 +69,7 @@ class Weather:
 
     def get_single_forecast(self, country, town, date):
         """ note that without subscription cannot go further than 5days """
-        values = self.get_full_forecast(country, town, date)
+        values = self.get_full_forecast(country, town)
 
         # given date in unix time
         param_date = datetime.strptime(date, "%d/%m/%Y")
