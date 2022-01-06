@@ -45,7 +45,7 @@ def get_selection_country():
         os.system("clear")
         print_banner()
         print("Note: Auto completer is case sensitive")
-        text = prompt("Enter a country: ", completer=country_completer)
+        text = prompt("> Enter a country: ", completer=country_completer)
         if text in country_list:
             return text
         print("Please select a country using the auto completer")
@@ -74,7 +74,7 @@ def get_forecast():
     data = weather.get_full_forecast(country, town)
     text = ""
     for forecast in data:
-        text += f"{forecast['dt_txt']} {forecast['main']['Temp']}\n"
+        text += f"{forecast['dt_txt']} {forecast['main']['temp']}\n"
     return text
 
 
