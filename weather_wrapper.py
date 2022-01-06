@@ -48,14 +48,15 @@ class Weather:
             f'?lat={current_weather["coord"]["lat"]}'
             f'&lon={current_weather["coord"]["lon"]}'
             f'&dt={int(timestamp)}'
-            '&units=matric'
+            '&units=metric'
         )
 
         return self.get_json_response(request_url)
 
     def get_full_forecast(self, country, town):
         """ 
-        Gets a 5day forecast from today 
+        Gets a 5day forecast from time queried,
+        does not include data from earlier in the day 
         https://openweathermap.org/forecast5 
         """
 
