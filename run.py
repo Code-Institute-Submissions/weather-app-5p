@@ -150,7 +150,9 @@ while True:
         print(get_forecast())
 
     if selection == 3:
-        print(get_previous_weather())
+        print("Note: Values are averages.")
+        for data in get_previous_weather():
+            print(f"{str(data[0])} - {data[1]}c - Humidity @ {data[2]} - Windspeed @ {data[3]}mps")
 
     if selection == 4:
         pass
