@@ -59,19 +59,19 @@ def get_selection_town():
 def get_todays_weather():
     country = get_selection_country()
     town = get_selection_town()
-    data = weather.get_current_weather(country, town)
+    current_weather = weather.get_current_weather(country, town)
 
     sunrise = datetime.utcfromtimestamp(
-        int(data['sys']['sunrise'])).strftime('%H:%M:%S')
+        int(current_weather['sys']['sunrise'])).strftime('%H:%M:%S')
     sunset = datetime.utcfromtimestamp(
-        int(data['sys']['sunset'])).strftime('%H:%M:%S')
+        int(current_weather['sys']['sunset'])).strftime('%H:%M:%S')
 
     return (
-        f"\nAt a temperature of {data['main']['temp']}c "
-        f"with lows of {round(data['main']['temp_min'])}c "
-        f"and highs of {round(data['main']['temp_max'])}c\n"
-        f"A {data['main']['humidity']}% humidity and " 
-        f"{data['clouds']['all']}% cloud coverage\n"
+        f"\nAt a temperature of {current_weather['main']['temp']}c "
+        f"with lows of {round(current_weather['main']['temp_min'])}c "
+        f"and highs of {round(current_weather['main']['temp_max'])}c\n"
+        f"A {current_weather['main']['humidity']}% humidity and " 
+        f"{current_weather['clouds']['all']}% cloud coverage\n"
         f"Sunrise at {sunrise} and Sunset at {sunset}"
     )
 
@@ -79,9 +79,10 @@ def get_todays_weather():
 def get_forecast():
     country = get_selection_country()
     town = get_selection_town()
-    data = weather.get_full_forecast(country, town)
+    full_forecast = weather.get_full_forecast(country, town)
+
     text = ""
-    for forecast in data:
+    for forecast in full_forecast:
         text += f"{forecast['dt_txt']} {forecast['main']['temp']}\n"
     return text
 
@@ -92,8 +93,7 @@ def get_previous_weather():
 
     start_date = datetime.now().date()
 
-    # List to be returned
-    data = []
+    return_data = []
 
     # Loop for each of 5days from today
     for i in range(0, 6):
@@ -115,8 +115,16 @@ def get_previous_weather():
         avg[1] = round(avg[1] / count, 2)
         avg[2] = round(avg[2] / count, 2)
         avg[3] = round(avg[3] / count, 2)
-        data.append(avg)
-    return data
+        return_data.append(avg)
+
+    print("Note: Values are averages.")
+    text = ""
+    for data in get_previous_weather():
+        text += (
+            f"{str(data[0])} - Temperature @ {data[1]}c - "
+            f"Humidity @ {data[2]} -"
+            f"Windspeed @ {data[3]}mps\n")
+    return text
 
 
 weather = weather_wrapper.Weather(os.environ.get("API_KEY"))
@@ -154,12 +162,7 @@ while True:
         print(get_forecast())
 
     if selection == 3:
-        print("Note: Values are averages.")
-        for data in get_previous_weather():
-            print(
-                f"{str(data[0])} - Temperature @ {data[1]}c - "
-                f"Humidity @ {data[2]} -"
-                f"Windspeed @ {data[3]}mps")
+        print(get_previous_weather())
 
     if selection == 4:
         pass
