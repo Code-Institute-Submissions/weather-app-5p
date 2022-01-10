@@ -81,6 +81,8 @@ def get_forecast():
     town = get_selection_town()
     full_forecast = weather.get_full_forecast(country, town)
 
+    print(full_forecast)
+
     text = ""
     for forecast in full_forecast:
         text += f"{forecast['dt_txt']} {forecast['main']['temp']}\n"
@@ -119,11 +121,12 @@ def get_previous_weather():
 
     print("Note: Values are averages.")
     text = ""
-    for data in get_previous_weather():
+    for data in return_data:
         text += (
             f"{str(data[0])} - Temperature @ {data[1]}c - "
             f"Humidity @ {data[2]} -"
             f"Windspeed @ {data[3]}mps\n")
+
     return text
 
 
