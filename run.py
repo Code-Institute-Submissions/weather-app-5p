@@ -18,6 +18,9 @@ country_list = [y[0] for y in country_tuples]
 
 
 def print_banner():
+    """
+    Displays the banner
+    """
     print("☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ")
     print(" __          __        _   _   ")
     print(" \ \        / /       | | | |  ")
@@ -31,23 +34,38 @@ def print_banner():
 
 
 def print_menu():
-
+    """
+    Displays the menu
+    """
     print(message)
     print("1) Get Todays Weather")
     print("2) See the forecast for next 5 days")
     print("3) Get last 5 days weather")
-    print("4) Number Four")
 
 
 def get_selection_country():
+    """
+    Gets user input for selecting a users country assisted by 
+    a word completer filled with all countries
+    """
+    # Create a WordCompleter object
     country_completer = WordCompleter(country_list)
+
+    os.system("clear")
+
+    # Loop until a valid country has been entered
     while True:
-        os.system("clear")
         print_banner()
         print("Note: Auto completer is case sensitive")
+
+        # prompt acts like input() but has a completer when 
+        # given a list of values
         text = prompt("> Enter a country: ", completer=country_completer)
+
+        # If a valid country has been 
         if text in country_list:
             return text
+        os.system("clear")
         print("Please select a country using the auto completer")
 
 
@@ -56,10 +74,14 @@ def get_selection_town():
 
 
 def get_todays_weather():
+    """
+    Gets and builds a string of data to display the current days weather
+    """
     country = get_selection_country()
     town = get_selection_town()
     current_weather = weather.get_current_weather(country, town)
 
+    # Parse sunrise sunset from timestamp to a readable date
     sunrise = datetime.utcfromtimestamp(
         int(current_weather['sys']['sunrise'])).strftime('%H:%M:%S')
     sunset = datetime.utcfromtimestamp(
@@ -76,6 +98,9 @@ def get_todays_weather():
 
 
 def get_forecast():
+    """
+    Get forecast for the next 5 days start from current day
+    """
     country = get_selection_country()
     town = get_selection_town()
     full_forecast = weather.get_full_forecast(country, town)
@@ -85,10 +110,14 @@ def get_forecast():
     current_date = ""
     loops = 0
     text = ""
+
+    # Loop through each 3hour forecast and compile them into days
     for forecast in full_forecast["list"]:
+        # Parse and change date into a  Y-m-d format
         str_date = str(datetime.strptime(
             forecast["dt_txt"], "%Y-%m-%d %H:%M:%S").date())
 
+        # If date of forecast is different then append data and clear variables
         if str_date != current_date:
             if current_date != "":
                 text += (f"{current_date} - "
@@ -102,8 +131,11 @@ def get_forecast():
         current_data[0] += forecast["main"]["temp"]
         current_data[1] += forecast["main"]["humidity"]
         current_data[2] += forecast["wind"]["speed"]
+        
+        # Count loops for when we average
         loops += 1
 
+    # Append the final data
     text += (f"{current_date} - {round(current_data[0]/loops, 2)}c - "
              f"Humidity {round(current_data[1]/loops,2)}% - "
              f"Windspeed {round(current_data[2], 2)}mps\n")
@@ -111,6 +143,10 @@ def get_forecast():
 
 
 def get_previous_weather():
+    """
+    Gets weather from past 5 days, due to using the free tier 
+    of api can only go as far back as 5 days
+    """
     country = get_selection_country()
     town = get_selection_town()
 
@@ -154,10 +190,13 @@ def get_previous_weather():
 weather = weather_wrapper.Weather(os.environ.get("API_KEY"))
 
 while True:
+    # Clear the console
     os.system("clear")
     print_banner()
     print_menu()
     selection = input("> ")
+
+    # Check if something other than a number is entered
     if not selection.isdigit():
         os.system("clear")
         message = "Please enter a number from the list below!"
@@ -165,7 +204,8 @@ while True:
         print_menu()
         continue
 
-    if int(selection) > 4:
+    # Check if selection is greater than 3
+    if int(selection) > 3:
         os.system("clear")
         message = "Please enter a number from the list below!"
         print_banner()
@@ -173,6 +213,7 @@ while True:
         continue
 
     message = ""
+    # Clear console and reprint screen with asked for data
     os.system("clear")
     print_banner()
     print_menu()
