@@ -1,7 +1,8 @@
 import weather_wrapper
 import os
 import pycountry
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 if os.path.exists('env.py'):
@@ -16,6 +17,7 @@ for i in pycountry.countries:
 
 
 country_list = [y[0] for y in country_tuples]
+
 
 def print_banner():
     print("☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ☁ ")
@@ -34,7 +36,7 @@ def print_menu():
     print(message)
     print("1) Get Todays Weather")
     print("2) See the forecast for next 5 days")
-    print("3) Number Three")
+    print("3) Get last 5 days weather")
     print("4) Number Four")
     print(data_message)
 
@@ -51,10 +53,13 @@ def get_selection_country():
         print("Please select a country using the auto completer")
 
 
+def get_selection_town():
+    return input("> Enter Town Name : ")
+
+
 def get_todays_weather():
     country = get_selection_country()
-    town = input("> Enter Town Name : ")
-    print("> Press enter to continue!")
+    town = get_selection_town()
     data = weather.get_current_weather(country, town)
     
     sunrise = datetime.utcfromtimestamp(int(data['sys']['sunrise'])).strftime('%H:%M:%S')
@@ -69,13 +74,45 @@ def get_todays_weather():
 
 def get_forecast():
     country = get_selection_country()
-    town = input("> Enter Town Name : ")
-    print("> Press enter to continue!")
+    town = get_selection_town()
     data = weather.get_full_forecast(country, town)
     text = ""
     for forecast in data:
         text += f"{forecast['dt_txt']} {forecast['main']['temp']}\n"
     return text
+
+
+def get_previous_weather():
+    country = get_selection_country()
+    town = get_selection_town()
+
+    start_date = datetime.now().date()
+
+    # List to be returned
+    data = []
+
+    # Loop for each of 5days from today
+    for i in range(0, 6):
+        date = start_date - timedelta(days=i)
+        api_data = weather.get_historical_weather(country, town, str(date))
+
+        # date - temp - humidity - wind speed
+        avg = ["", 0, 0, 0]
+        count = 0
+        for item in api_data["hourly"]:
+            count += 1
+            avg[1] += item["temp"] 
+            avg[2] += item["humidity"] 
+            avg[3] += item["wind_speed"] 
+        
+        avg[0] = date
+
+        # Get averages and round
+        avg[1] = round(avg[1] / count, 2) 
+        avg[2] = round(avg[2] / count, 2) 
+        avg[3] = round(avg[3] / count, 2) 
+        data.append(avg)
+    return data
 
 
 weather = weather_wrapper.Weather(os.environ.get("API_KEY"))
@@ -108,13 +145,14 @@ while True:
 
     if selection == 1:
         print(get_todays_weather())
-        input("Press Enter to continue!")
 
     if selection == 2:
         print(get_forecast())
-        input("Press Enter to continue!")
 
     if selection == 3:
-        pass
+        print(get_previous_weather())
+
     if selection == 4:
         pass
+
+    input("Press Enter to continue!")    
