@@ -1,6 +1,6 @@
 """ Module for the weather api wrapper """
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 import time
 
 
@@ -31,22 +31,20 @@ class Weather:
 
     def get_historical_weather(self, country, town, date):
         """ note that with free api cannot go further back than 5days """
+        timetuple = datetime.strptime(date, "%Y-%m-%d").timetuple()
+        timestamp = int(time.mktime(timetuple))
 
-        timetuple = datetime.strptime(date, "%d/%m/%Y").timetuple()
-        timestamp = time.mktime(timetuple)
-
-        date_limit = datetime.now() - timedelta(days=6)
-        if (datetime.now() - date_limit).days >= 6:
+        if (datetime.now().day - timetuple.tm_mday) not in range(0, 6):
             print("Date surpasses 5 day limit")
             return
 
         current_weather = self.get_current_weather(country, town)
-
+        
         request_url = (
             self.BASE_URL +
             'onecall/timemachine'
-            f'?lat={current_weather["coord"]["lat"]}'
-            f'&lon={current_weather["coord"]["lon"]}'
+            f'?lat={str(current_weather["coord"]["lat"])}'
+            f'&lon={str(current_weather["coord"]["lon"])}'
             f'&dt={int(timestamp)}'
             '&units=metric'
         )
