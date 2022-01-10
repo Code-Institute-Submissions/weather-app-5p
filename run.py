@@ -1,14 +1,13 @@
-import weather_wrapper
 import os
-import pycountry
 from datetime import datetime, timedelta
+import pycountry
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
+import weather_wrapper
 if os.path.exists('env.py'):
     import env  # noqa
 
 message = ""
-data_message = ""
 country_tuples = []
 
 for i in pycountry.countries:
@@ -32,12 +31,12 @@ def print_banner():
 
 
 def print_menu():
+
     print(message)
     print("1) Get Todays Weather")
     print("2) See the forecast for next 5 days")
     print("3) Get last 5 days weather")
     print("4) Number Four")
-    print(data_message)
 
 
 def get_selection_country():
@@ -70,7 +69,7 @@ def get_todays_weather():
         f"\nAt a temperature of {current_weather['main']['temp']}c "
         f"with lows of {round(current_weather['main']['temp_min'])}c "
         f"and highs of {round(current_weather['main']['temp_max'])}c\n"
-        f"A {current_weather['main']['humidity']}% humidity and " 
+        f"A {current_weather['main']['humidity']}% humidity and "
         f"{current_weather['clouds']['all']}% cloud coverage\n"
         f"Sunrise at {sunrise} and Sunset at {sunset}"
     )
@@ -81,11 +80,33 @@ def get_forecast():
     town = get_selection_town()
     full_forecast = weather.get_full_forecast(country, town)
 
-    print(full_forecast)
-
+    # temp - humidity - wind speed
+    current_data = [0, 0, 0]
+    current_date = ""
+    loops = 0
     text = ""
-    for forecast in full_forecast:
-        text += f"{forecast['dt_txt']} {forecast['main']['temp']}\n"
+    for forecast in full_forecast["list"]:
+        str_date = str(datetime.strptime(
+            forecast["dt_txt"], "%Y-%m-%d %H:%M:%S").date())
+
+        if str_date != current_date:
+            if current_date != "":
+                text += (f"{current_date} - "
+                         f"{round(current_data[0]/loops, 2)}c - "
+                         f"Humidity {round(current_data[1]/loops,2)}% - "
+                         f"Windspeed {round(current_data[2], 2)}mps\n")
+            current_data = [0, 0, 0]
+            loops = 0
+            current_date = str_date
+
+        current_data[0] += forecast["main"]["temp"]
+        current_data[1] += forecast["main"]["humidity"]
+        current_data[2] += forecast["wind"]["speed"]
+        loops += 1
+
+    text += (f"{current_date} - {round(current_data[0]/loops, 2)}c - "
+             f"Humidity {round(current_data[1]/loops,2)}% - "
+             f"Windspeed {round(current_data[2], 2)}mps\n")
     return text
 
 
@@ -152,7 +173,6 @@ while True:
         continue
 
     message = ""
-    data_message = ""
     os.system("clear")
     print_banner()
     print_menu()
