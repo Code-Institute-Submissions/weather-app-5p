@@ -1,7 +1,6 @@
 import weather_wrapper
 import os
 import pycountry
-import time
 from datetime import datetime, timedelta
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
@@ -61,15 +60,20 @@ def get_todays_weather():
     country = get_selection_country()
     town = get_selection_town()
     data = weather.get_current_weather(country, town)
-    
-    sunrise = datetime.utcfromtimestamp(int(data['sys']['sunrise'])).strftime('%H:%M:%S')
-    sunset = datetime.utcfromtimestamp(int(data['sys']['sunset'])).strftime('%H:%M:%S')
+
+    sunrise = datetime.utcfromtimestamp(
+        int(data['sys']['sunrise'])).strftime('%H:%M:%S')
+    sunset = datetime.utcfromtimestamp(
+        int(data['sys']['sunset'])).strftime('%H:%M:%S')
 
     return (
-        f"\nAt a temperature of {data['main']['temp']}c with lows of {round(data['main']['temp_min'])}c and highs of {round(data['main']['temp_max'])}c\n"
-        f"With {data['main']['humidity']}% humidity and {data['clouds']['all']}% cloud coverage\n"
+        f"\nAt a temperature of {data['main']['temp']}c "
+        f"with lows of {round(data['main']['temp_min'])}c "
+        f"and highs of {round(data['main']['temp_max'])}c\n"
+        f"A {data['main']['humidity']}% humidity and " 
+        f"{data['clouds']['all']}% cloud coverage\n"
         f"Sunrise at {sunrise} and Sunset at {sunset}"
-        )
+    )
 
 
 def get_forecast():
@@ -101,16 +105,16 @@ def get_previous_weather():
         count = 0
         for item in api_data["hourly"]:
             count += 1
-            avg[1] += item["temp"] 
-            avg[2] += item["humidity"] 
-            avg[3] += item["wind_speed"] 
-        
+            avg[1] += item["temp"]
+            avg[2] += item["humidity"]
+            avg[3] += item["wind_speed"]
+
         avg[0] = date
 
         # Get averages and round
-        avg[1] = round(avg[1] / count, 2) 
-        avg[2] = round(avg[2] / count, 2) 
-        avg[3] = round(avg[3] / count, 2) 
+        avg[1] = round(avg[1] / count, 2)
+        avg[2] = round(avg[2] / count, 2)
+        avg[3] = round(avg[3] / count, 2)
         data.append(avg)
     return data
 
@@ -120,7 +124,7 @@ weather = weather_wrapper.Weather(os.environ.get("API_KEY"))
 while True:
     os.system("clear")
     print_banner()
-    print_menu()    
+    print_menu()
     selection = input("> ")
     if not selection.isdigit():
         os.system("clear")
@@ -128,7 +132,7 @@ while True:
         print_banner()
         print_menu()
         continue
-    
+
     if int(selection) > 4:
         os.system("clear")
         message = "Please enter a number from the list below!"
@@ -152,9 +156,12 @@ while True:
     if selection == 3:
         print("Note: Values are averages.")
         for data in get_previous_weather():
-            print(f"{str(data[0])} - {data[1]}c - Humidity @ {data[2]} - Windspeed @ {data[3]}mps")
+            print(
+                f"{str(data[0])} - Temperature @ {data[1]}c - "
+                f"Humidity @ {data[2]} -"
+                f"Windspeed @ {data[3]}mps")
 
     if selection == 4:
         pass
 
-    input("Press Enter to continue!")    
+    input("Press Enter to continue!")
