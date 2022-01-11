@@ -39,7 +39,7 @@ class Weather:
             return
 
         current_weather = self.get_current_weather(country, town)
-        
+
         request_url = (
             self.BASE_URL +
             'onecall/timemachine'
@@ -64,7 +64,8 @@ class Weather:
             f'?q={town},{country}&mode=json'
             '&units=metric'
         )
-        return self.get_json_response(request_url)["list"]
+        
+        return self.get_json_response(request_url)
 
     def get_single_forecast(self, country, town, date):
         """ note that without subscription cannot go further than 5days """
