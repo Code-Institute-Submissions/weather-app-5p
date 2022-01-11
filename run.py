@@ -84,6 +84,9 @@ def get_todays_weather():
     country = [h for h in country_tuples if h[0] == country][0][1]
     current_weather = weather.get_current_weather(country, town)
 
+    if isinstance(current_weather, str):
+        return current_weather
+
     # Parse sunrise sunset from timestamp to a readable date
     sunrise = datetime.utcfromtimestamp(
         int(current_weather['sys']['sunrise'])).strftime('%H:%M:%S')
@@ -110,6 +113,9 @@ def get_forecast():
     # Get the iso alpha-2 code for the country
     country = [h for h in country_tuples if h[0] == country][0][1]
     full_forecast = weather.get_full_forecast(country, town)
+
+    if isinstance(full_forecast, str):
+        return full_forecast
 
     # temp - humidity - wind speed
     current_data = [0, 0, 0]
@@ -167,6 +173,9 @@ def get_previous_weather():
     for i in range(0, 6):
         date = start_date - timedelta(days=i)
         api_data = weather.get_historical_weather(country, town, str(date))
+
+        if isinstance(api_data, str):
+            return api_data
 
         # date - temp - humidity - wind speed
         avg = ["", 0, 0, 0]

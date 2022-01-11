@@ -14,11 +14,13 @@ class Weather:
 
     def get_json_response(self, url):
         response = requests.get(url + f'&APPID={self.api_key}')
-        if response.status_code == 200:
-            return response.json()
+        data = response.json()
 
-        print("Whoops, something went wrong " + str(response.status_code))
-        print(url + f'&APPID={self.api_key}')
+        if data["cod"] == "404":
+            print("Whoops, something went wrong")
+            return response.json()['message']
+        
+        return data
 
     def get_current_weather(self, country, town):
         request_url = (
@@ -39,6 +41,9 @@ class Weather:
             return
 
         current_weather = self.get_current_weather(country, town)
+
+        if isinstance(current_weather, str):
+            return current_weather
 
         request_url = (
             self.BASE_URL +
