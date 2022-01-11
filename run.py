@@ -60,7 +60,7 @@ def get_selection_country():
 
         # prompt acts like input() but has a completer when 
         # given a list of values
-        text = prompt("> Enter a country: \n", completer=country_completer)
+        text = prompt("> Enter a country: ", completer=country_completer)
 
         # If a valid country has been 
         if text in country_list:
@@ -70,7 +70,7 @@ def get_selection_country():
 
 
 def get_selection_town():
-    return input("> Enter Town Name : \n")
+    return input("> Enter Town Name : ")
 
 
 def get_todays_weather():
@@ -212,7 +212,7 @@ while True:
     os.system("clear")
     print_banner()
     print_menu()
-    selection = input("> \n")
+    selection = input("> ")
 
     # Check if something other than a number is entered
     if not selection.isdigit():
@@ -249,4 +249,4 @@ while True:
     if selection == 4:
         pass
 
-    input("Press Enter to continue!\n")
+    input("Press Enter to continue!")
