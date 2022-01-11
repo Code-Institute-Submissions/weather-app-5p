@@ -53,11 +53,11 @@ def get_selection_country():
 
     os.system("clear")
 
+    print_banner()
+    print("Note: Auto completer is case sensitive")
+
     # Loop until a valid country has been entered
     while True:
-        print_banner()
-        print("Note: Auto completer is case sensitive")
-
         # prompt acts like input() but has a completer when 
         # given a list of values
         text = prompt("> Enter a country: ", completer=country_completer)
@@ -66,6 +66,8 @@ def get_selection_country():
         if text in country_list:
             return text
         os.system("clear")
+        print_banner()
+        print("Note: Auto completer is case sensitive")
         print("Please select a country using the auto completer")
 
 
