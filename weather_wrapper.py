@@ -16,10 +16,11 @@ class Weather:
         response = requests.get(url + f'&APPID={self.api_key}')
         data = response.json()
 
-        if data["cod"] == "404":
-            print("Whoops, something went wrong")
-            return response.json()['message']
-        
+        if "cod" in data:
+            if data["cod"] == "404":
+                print("Whoops, something went wrong")
+                return response.json()['message']
+
         return data
 
     def get_current_weather(self, country, town):
@@ -57,10 +58,10 @@ class Weather:
         return self.get_json_response(request_url)
 
     def get_full_forecast(self, country, town):
-        """ 
+        """
         Gets a 5day forecast from time queried,
-        does not include data from earlier in the day 
-        https://openweathermap.org/forecast5 
+        does not include data from earlier in the day
+        https://openweathermap.org/forecast5
         """
 
         request_url = (
@@ -69,7 +70,7 @@ class Weather:
             f'?q={town},{country}&mode=json'
             '&units=metric'
         )
-        
+
         return self.get_json_response(request_url)
 
     def get_single_forecast(self, country, town, date):
