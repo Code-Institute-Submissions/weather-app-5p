@@ -1,5 +1,6 @@
 # Weather py
 A python terminal app that lets you get the weather forecast for either the next 5 days, today, or the last 5 days.
+[Deployed Site](https://edenobrega-weatherpy-5p.herokuapp.com/)
 
 ## User Stories
 - As a user i want to be able to view the current days weather
@@ -39,4 +40,7 @@ As this is a console line app I am limited to how I can customize the ui, so I h
 The app was deployed using heroku, the steps are as follows:
 1. In Heroku, select new and "Create new app"
 2. Name and select a region for hosting
-3. Navigate to settings and create a new config var named "API_KEY" and set value to your key for [Open Weather Map](https://openweathermap.org/)
+3. Navigate to settings, scroll down and create a new config var named "API_KEY" and set value to your key for [Open Weather Map](https://openweathermap.org/)
+4. Go to the deploy tab and link your github account
+5. Select the respository to be used
+6. At the bottom of the deploy page, select "Deploy Branch"
