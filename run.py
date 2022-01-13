@@ -45,7 +45,7 @@ def print_menu():
 
 def get_selection_country():
     """
-    Gets user input for selecting a users country assisted by 
+    Gets user input for selecting a users country assisted by
     a word completer filled with all countries
     """
     # Create a WordCompleter object
@@ -58,11 +58,11 @@ def get_selection_country():
 
     # Loop until a valid country has been entered
     while True:
-        # prompt acts like input() but has a completer when 
+        # prompt acts like input() but has a completer when
         # given a list of values
         text = prompt("> Enter a country: ", completer=country_completer)
 
-        # If a valid country has been 
+        # If a valid country has been
         if text in country_list:
             return text
         os.system("clear")
@@ -111,7 +111,7 @@ def get_forecast():
     """
     country = get_selection_country()
     town = get_selection_town()
-    
+
     # Get the iso alpha-2 code for the country
     country = [h for h in country_tuples if h[0] == country][0][1]
     full_forecast = weather.get_full_forecast(country, town)
@@ -137,7 +137,7 @@ def get_forecast():
                 text += (f"{current_date} - "
                          f"{round(current_data[0]/loops, 2)}c - "
                          f"Humidity {round(current_data[1]/loops,2)}% - "
-                         f"Windspeed {round(current_data[2], 2)}mps\n")
+                         f"Windspeed {round(current_data[2]/loops, 2)}mps\n")
             current_data = [0, 0, 0]
             loops = 0
             current_date = str_date
@@ -145,20 +145,20 @@ def get_forecast():
         current_data[0] += forecast["main"]["temp"]
         current_data[1] += forecast["main"]["humidity"]
         current_data[2] += forecast["wind"]["speed"]
-        
+
         # Count loops for when we average
         loops += 1
 
     # Append the final data
     text += (f"{current_date} - {round(current_data[0]/loops, 2)}c - "
              f"Humidity {round(current_data[1]/loops,2)}% - "
-             f"Windspeed {round(current_data[2], 2)}mps\n")
+             f"Windspeed {round(current_data[2]/loops, 2)}mps\n")
     return text
 
 
 def get_previous_weather():
     """
-    Gets weather from past 5 days, due to using the free tier 
+    Gets weather from past 5 days, due to using the free tier
     of api can only go as far back as 5 days
     """
     country = get_selection_country()
