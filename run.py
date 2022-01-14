@@ -7,6 +7,7 @@ import weather_wrapper
 if os.path.exists('env.py'):
     import env  # noqa
 
+# Codes for changing text colors
 red_text = '\033[91m'
 yellow_text = '\033[93m'
 white_text = '\033[0m'
@@ -14,10 +15,11 @@ white_text = '\033[0m'
 message = ""
 country_tuples = []
 
+# Populate tuple list witg country name and iso 2 code
 for i in pycountry.countries:
     country_tuples.append((i.name, i.alpha_2))
 
-
+# create a list of only the country names
 country_list = [y[0] for y in country_tuples]
 
 
