@@ -3,11 +3,11 @@ A python terminal app that lets you get the weather forecast for either the next
 [Deployed Site](https://edenobrega-weatherpy-5p.herokuapp.com/)
 
 ## User Stories
-- As a user i want to be able to view the current days weather
-- As a user i want to be able to choose where i am viewing
-- As a user i want to be able to see the forecast for the next 5 days
-- As a user i want to see more detailed data about the current days weather
-- As a user i want to be able to see the weather for the last 5 days
+- As a user I want to be able to view the current days weather
+- As a user I want to be able to choose where I am viewing
+- As a user I want to be able to see the forecast for the next 5 days
+- As a user I want to see more detailed data about the current days weather
+- As a user I want to be able to see the weather for the last 5 days
 
 ## UX
 As this is a console line app I am limited to how I can customize the ui, so I have gone with having a bordered header with some ascii art of the projects title, and I generated the ascii art using this [website](https://patorjk.com/software/taag/#p=display&f=Big&t=Weather%20py), and then below that will be a line dedicated to system messages for the user, menu of options for the user to choose from, and then below that will be the loaded data if the user has gone through one of the options atleast once.
@@ -32,7 +32,7 @@ As this is a console line app I am limited to how I can customize the ui, so I h
     - [pycountry](https://pypi.org/project/pycountry/) to get a list of countries along with ISO codes
 
 - I used the free tier of [Open Weather Map](https://openweathermap.org/) api to get weather data
-- For my IDE i used [Gitpod](https://www.gitpod.io/)
+- For my IDE I used [Gitpod](https://www.gitpod.io/)
 - I used [git](https://git-scm.com/) for version control
 - [Github](https://github.com/) to help me use git
 - [Postman](https://www.postman.com/) helped me test and see first hand the API and its data
@@ -96,3 +96,6 @@ The app was deployed using heroku, the steps are as follows:
 4. Go to the deploy tab and link your github account
 5. Select the respository to be used
 6. At the bottom of the deploy page, select "Deploy Branch"
+
+# Credits
+Used code from [here](https://stackoverflow.com/questions/287871/how-to-print-colored-text-to-the-terminal) for coloring the terminal
