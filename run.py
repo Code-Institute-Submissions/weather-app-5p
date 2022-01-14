@@ -7,6 +7,10 @@ import weather_wrapper
 if os.path.exists('env.py'):
     import env  # noqa
 
+red_text = '\033[91m'
+yellow_text = '\033[93m'
+white_text = '\033[0m'
+
 message = ""
 country_tuples = []
 
@@ -54,7 +58,7 @@ def get_selection_country():
     os.system("clear")
 
     print_banner()
-    print("Note: Auto completer is case sensitive")
+    print(f"{yellow_text}Note: Auto completer is case sensitive{white_text}")
 
     # Loop until a valid country has been entered
     while True:
@@ -67,8 +71,10 @@ def get_selection_country():
             return text
         os.system("clear")
         print_banner()
-        print("Note: Auto completer is case sensitive")
-        print("Please select a country using the auto completer")
+        print(f"{yellow_text}Note: Auto completer "
+              f"is case sensitive{white_text}")
+        print(f"{red_text}Please select a country "
+              f"using the auto completer{white_text}")
 
 
 def get_selection_town():
@@ -196,7 +202,7 @@ def get_previous_weather():
         avg[3] = round(avg[3] / count, 2)
         return_data.append(avg)
 
-    print("Note: Values are averages.")
+    print(f"{yellow_text}Note: Values are averages.{white_text}")
     text = ""
     for data in return_data:
         text += (
@@ -219,7 +225,8 @@ while True:
     # Check if something other than a number is entered
     if not selection.isdigit():
         os.system("clear")
-        message = "Please enter a number from the list below!"
+        message = (f"{red_text}Please enter a number "
+                   f"from the list below!{white_text}")
         print_banner()
         print_menu()
         continue
@@ -227,7 +234,8 @@ while True:
     # Check if selection is greater than 3
     if int(selection) > 3:
         os.system("clear")
-        message = "Please enter a number from the list below!"
+        message = (f"{red_text}Please enter a number "
+                   f"from the list below!{white_text}")
         print_banner()
         print_menu()
         continue
