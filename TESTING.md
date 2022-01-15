@@ -45,5 +45,20 @@ Selecting option 3 while return relevant information
 
 ![](documentation/testing-7.png)
 
+
+Changing the units of measurement
+
+![](documentation/units-menu.png)
+
+
+Entering an incorrect value for changing units of measurement
+
+![](documentation/units-fail.png)
+
+
+Unit of measurement in menu changing afterwards
+
+![](documentation/menu-imperial.png)
+
 # Bugs
 To my knowledge there are currently no bugs.

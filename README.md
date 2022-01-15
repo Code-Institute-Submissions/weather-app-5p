@@ -2,16 +2,18 @@
 A python terminal app that lets you get the weather forecast for either the next 5 days, today, or the last 5 days.
 [Deployed Site](https://edenobrega-weatherpy-5p.herokuapp.com/)
 
+![](documentation/amiresponsive.png)
+
 ## User Stories
-- As a user I want to be able to view the current days weather
-- As a user I want to be able to choose where I am viewing
+- As a user I want to be able to view the current day's weather
+- As a user I want to be able to choose the location 
 - As a user I want to be able to see the forecast for the next 5 days
-- As a user I want to see more detailed data about the current days weather
+- As a user I want to see more detailed data about the current day's weather
 - As a user I want to be able to see the weather for the last 5 days
 
 ## UX
-As this is a console line app I am limited to how I can customize the ui, so I have gone with having a bordered header with some ascii art of the projects title, and I generated the ascii art using this [website](https://patorjk.com/software/taag/#p=display&f=Big&t=Weather%20py), and then below that will be a line dedicated to system messages for the user, menu of options for the user to choose from, and then below that will be the loaded data if the user has gone through one of the options atleast once.
-![](documentation/wireframe.png)
+As this is a console line app I am limited to how I can customize the UI, so I have gone with having a bordered header with some ASCII art of the projects title, and I generated the ASCII art using this [website](https://patorjk.com/software/taag/#p=display&f=Big&t=Weather%20py). Below that will be lines dedicated to system messages, these will be colored to make sure they are readable, e.g. red for errors and yellow for warnings, and once the data is ready to be shown the window will be cleared and the data displayed.
+
 
 ## Features
 ### Existing Features
@@ -26,17 +28,38 @@ As this is a console line app I am limited to how I can customize the ui, so I h
 
 ![](documentation/testing-3.png)
 
+- Today's Weather
+    - Gets the weather for the rest of the day from the time the request is sent
+
+![](documentation/testing-5.png)
+
+- Forecast for the next 5 days
+    - Gets the weather for the next 5 days starting from time sent
+
+![](documentation/testing-6.png)
+
+- Forecast for the last 5 days
+    - Gets the weather for the last 5 days starting from today
+
+![](documentation/testing-7.png)
+
+- Change unit of measurement
+    - Choose between either Imperial or Metric for how you want the data to be shown
+
+![](documentation/units-menu.png)
+![](documentation/menu-imperial.png)
+
 ## API Wrapper
-To help with using the [OpenWeatherMap](https://openweathermap.org/) api I created a wrapper. Due to the limitations on the free tier of the api, the wrapper has been created with only this tier in mind.
+To help with using the [OpenWeatherMap](https://openweathermap.org/) API I created a wrapper. Due to the limitations on the free tier of the API, the wrapper has been created with only this tier in mind.
 
-note: all parameters of "country" are expected in the format of ISO 3166-2
+Note: all parameters of "country" are expected in the format of ISO 3166-2
 
-At the top of the class is a constant of the base url for the api
+At the top of the class is a constant of the base URL for the API
 ```python
     BASE_URL = "http://api.openweathermap.org/data/2.5/"
 ```
 
-When initializing the wrapper it takes two values, an apikey and a unit of measurement, imperial, kelvin or metric
+When initializing the wrapper it takes two values, an API key and a unit of measurement, Imperial, Kelvin or Metric
 ```python
     def __init__(self, api_key, unit):
         self.api_key = api_key
@@ -135,7 +158,7 @@ Gets the full forecast and then returns the date for the specific date, although
 ```
 
 # Data Model
-To help with getting the data the api wrapper was put into a class, inside of this class is stored the apikey and settings such as unit of measurement data to be shown in. This helps with not having to constantly pass these values into the methods everytime they are called and reduces the chance of a mistake being made due to human error. Having all the methods to get the data helps with having less code in the run.py and having to only focus on, and see, manipluating the returned json to display the data the user asked for.
+To help with getting the data the API wrapper was put into a class, inside of this class is stored the API key and settings such as the unit of measurement for the data to be shown in. This helps with not having to constantly pass these values into the methods everytime they are called and reduces the chance of a mistake being made due to human error. Having all the methods to get the data helps with having less code in the run.py and having to only focus on, and see, the returned json to display the data the user asked for.
 
 ![](documentation/country_input.png)
 # Technologies Used
@@ -144,7 +167,7 @@ To help with getting the data the api wrapper was put into a class, inside of th
     - [Prompt Toolkit](https://python-prompt-toolkit.readthedocs.io/en/master/) for word completion
     - [pycountry](https://pypi.org/project/pycountry/) to get a list of countries along with ISO codes
 
-- I used the free tier of [Open Weather Map](https://openweathermap.org/) api to get weather data
+- I used the free tier of [Open Weather Map](https://openweathermap.org/) API to get weather data
 - For my IDE I used [Gitpod](https://www.gitpod.io/)
 - I used [git](https://git-scm.com/) for version control
 - [Github](https://github.com/) to help me use git
@@ -156,9 +179,9 @@ See [TESTING.md](TESTING.md) for testing.
 
 # Deployment
 The app was deployed using heroku, the steps are as follows:
-1. For the app to work you will need an API key for the weather api
+1. For the app to work you will need an API key for the weather API
     1. Go to [OpenWeatherMap](https://openweathermap.org/) 
-    1. Create an account (you will have to wait around 5-30min for your account toy activate)
+    1. Create an account (you will have to wait around 5-30 min for your account toy activate)
     1. Once logged in, click your name in the top right and select "My API keys"
     1. A default key should be on this page, if not use the form on the right to generate a key
     1. Copy the key to somewhere safe for use in a later step
