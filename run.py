@@ -53,6 +53,7 @@ def print_menu():
 def clear():
     os.system("clear")
     print_banner()
+    print(message)
 
 
 def change_measurement():
@@ -89,9 +90,8 @@ def get_selection_country():
     # Create a WordCompleter object
     country_completer = WordCompleter(country_list)
 
-    os.system("clear")
+    clear()
 
-    print_banner()
     print(f"{yellow_text}Note: Auto completer is case sensitive{white_text}")
 
     # Loop until a valid country has been entered
@@ -103,8 +103,7 @@ def get_selection_country():
         # If a valid country has been
         if text in country_list:
             return text
-        os.system("clear")
-        print_banner()
+        clear()
         print(f"{yellow_text}Note: Auto completer "
               f"is case sensitive{white_text}")
         print(f"{red_text}Please select a country "
@@ -241,9 +240,9 @@ def get_previous_weather():
     text = ""
     for data in return_data:
         text += (
-            f"{str(data[0])} | Temperature @ {data[1]}{unit[1]} | "
-            f"Humidity @ {data[2]} | "
-            f"Windspeed @ {data[3]}mps\n")
+            f"{str(data[0])} | Temperature {data[1]}{unit[1]} | "
+            f"Humidity {data[2]}% | "
+            f"Windspeed {data[3]}mps\n")
 
     return ("\n" +
             f"{yellow_text}Note: Values are averages.{white_text}"
@@ -255,7 +254,6 @@ message = ""
 
 while True:
     clear()
-    print(message)
     print_menu()
     selection = input("> ")
 
@@ -276,18 +274,21 @@ while True:
         continue
 
     # Clear console and reprint screen with asked for data
-    message = ""
+
     clear()
     print_menu()
     selection = int(selection)
 
-    if selection == 1:
+    if selection == 1:    
+        message = "Getting todays weather"  
         print(get_todays_weather())
 
     if selection == 2:
+        message = "Getting forecast for next 5 days"
         print(get_forecast())
 
     if selection == 3:
+        message = "Getting weather from previous 5 days "
         print(get_previous_weather())
 
     if selection == 4:
@@ -296,5 +297,6 @@ while True:
         print(weather.unit)
         print(f"Now showing data in {unit[0].capitalize()}")
 
+    message = ""
     input("Press Enter to continue!")
     
