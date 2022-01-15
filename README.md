@@ -90,12 +90,39 @@ To my knowledge there are currently no bugs.
 
 # Deployment
 The app was deployed using heroku, the steps are as follows:
+1. For the app to work you will need an API key for the weather api
+    1. Go to [OpenWeatherMap](https://openweathermap.org/) 
+    1. Create an account (you will have to wait around 5-30min for your account toy activate)
+    1. Once logged in, click your name in the top right and select "My API keys"
+    1. A default key should be on this page, if not use the form on the right to generate a key
+    1. Copy the key to somewhere safe for use in a later step
+1. Create an account on heroku and login 
 1. In Heroku, select new and "Create new app"
-2. Name and select a region for hosting
-3. Navigate to settings, scroll down and create a new config var named "API_KEY" and set value to your key for [Open Weather Map](https://openweathermap.org/)
-4. Go to the deploy tab and link your github account
-5. Select the respository to be used
-6. At the bottom of the deploy page, select "Deploy Branch"
+1. Select a unique name and select a region for hosting
+1. Navigate to settings, scroll down and create a new config var named "API_KEY" and set value to your key for [OpenWeatherMap](https://openweathermap.org/)
+1. While still in settings, scroll to "buildpacks" and install these two packs in the given order:
+    1. Python
+    2. node.js
+1. Go to the deploy tab and connect your github account
+1. Select the respository to be used
+1. At the bottom of the deploy page, select "Deploy Branch"
+
+### Local Deployment
+
+In order to make a local copy of this project, you can clone it. In your IDE Terminal, type the following command to clone my repository:
+
+- `git clone https://github.com/edenobrega/weather-app-5p.git`
+
+Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/edenobrega/weather-app-5p)
+
+In order to install the required python packages for this application locally, use the following command in your terminal:
+- pip3 install -r requirements.txt
+Once you've got the packages installed, in order to freeze these packages for deployment on Heroku, type the following:
+- pip3 freeze --local > requirements.txt
 
 # Credits
 Used code from [here](https://stackoverflow.com/questions/287871/how-to-print-colored-text-to-the-terminal) for coloring the terminal
+[Postman](https://www.postman.com/) to test the api before implementing in code
+[OpenWeatherMap](https://openweathermap.org/) api to get weather data live
