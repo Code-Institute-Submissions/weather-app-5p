@@ -24,6 +24,8 @@ As this is a console line app I am limited to how I can customize the ui, so I h
     - When entering the country a word completer loaded with all countries will appear
     - When selected the ISO 3166-2 code for the country will be found using the selected country 
 
+![](documentation/testing-3.png)
+
 ## API Wrapper
 To help with using the [OpenWeatherMap](https://openweathermap.org/) api I created a wrapper. Due to the limitations on the free tier of the api, the wrapper has been created with only this tier in mind.
 
@@ -68,7 +70,6 @@ A simple endpoint that can be done with only the town and country, so not much n
         )
         return self.get_json_response(request_url)
 ```
-
 ### get_historical_weather((self, country, town, date)
 Gets historical data, althought limited to last 5 days due to free tier api.
 To get historical data a date is required in the format of UNIX Time, so the date given to the function is parsed and then returned as a timetuple from the datetime library, this tuple is then used to convert to timestamp which is also incased in int() as .mktime returns a float ending in .0 and this removes it.
@@ -114,7 +115,7 @@ Another simple method+endpoint that does not require any special work.
 ```
 ### get_single_forecast(self, country, town, date)
 Gets the forecast for a specific date in the next 5 days.
-Gets the full forecast and then returns the date for the specific date, although after finishing coding for the project i found out there is a param for one of the endpoints that takes a single date, which would remove the need to get all the days
+Gets the full forecast and then returns the date for the specific date, although after finishing coding for the project I found out there is a param for one of the endpoints that takes a single date, which would remove the need to get all the days
 ```python
     def get_single_forecast(self, country, town, date):
         values = self.get_full_forecast(country, town)
@@ -132,6 +133,9 @@ Gets the full forecast and then returns the date for the specific date, although
 
         return return_values
 ```
+
+# Data Model
+To help with getting the data the api wrapper was put into a class, inside of this class is stored the apikey and settings such as unit of measurement data to be shown in. This helps with not having to constantly pass these values into the methods everytime they are called and reduces the chance of a mistake being made due to human error. Having all the methods to get the data helps with having less code in the run.py and having to only focus on, and see, manipluating the returned json to display the data the user asked for.
 
 ![](documentation/country_input.png)
 # Technologies Used
