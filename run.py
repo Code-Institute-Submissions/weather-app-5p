@@ -111,7 +111,18 @@ def get_selection_country():
 
 
 def get_selection_town():
-    return input("> Enter Town Name : ")
+    clear()
+    print(f"{yellow_text}Note: There is no auto "
+          f"completer for town{white_text}")
+    while True:
+        text = input("> Enter Town Name : ")   
+        if text == "" or text.isspace():
+            clear()
+            print(f"{yellow_text}Note: There is no auto "
+                  f"completer for town{white_text}")
+            print(f"{red_text}Please enter a town{white_text}")
+            continue
+        return text
 
 
 def get_todays_weather():
