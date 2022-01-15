@@ -5,7 +5,10 @@ import time
 
 
 class Weather:
-    """ Class for handling requests to the https://openweathermap.org/ api """
+    """ 
+    Class for handling requests to the https://openweathermap.org/ api 
+    Takes api_key and one of three units, kelvin, imperial, metric
+    """
 
     BASE_URL = "http://api.openweathermap.org/data/2.5/"
 
@@ -14,6 +17,10 @@ class Weather:
         self.unit = unit
 
     def get_json_response(self, url):
+        """
+        Helper method to make api calls and to
+        catch possible errors specific to this api
+        """
         response = requests.get(url + f'&APPID={self.api_key}')
         data = response.json()
 
@@ -34,7 +41,11 @@ class Weather:
         return self.get_json_response(request_url)
 
     def get_historical_weather(self, country, town, date):
-        """ note that with free api cannot go further back than 5days """
+        """ 
+        Preferably takes an ISO-2 code.
+        Gets weather data from the given date
+        note: with free api cannot go further back than 5days
+        """
         timetuple = datetime.strptime(date, "%Y-%m-%d").timetuple()
         timestamp = int(time.mktime(timetuple))
 
@@ -60,6 +71,7 @@ class Weather:
 
     def get_full_forecast(self, country, town):
         """
+        Preferably takes an ISO-2 code.
         Gets a 5day forecast from time queried,
         does not include data from earlier in the day
         https://openweathermap.org/forecast5
@@ -75,7 +87,11 @@ class Weather:
         return self.get_json_response(request_url)
 
     def get_single_forecast(self, country, town, date):
-        """ note that without subscription cannot go further than 5days """
+        """ 
+        Preferably takes an ISO-2 code.
+        Gets the forecast for a single date.
+        note: without subscription cannot go further than 5days 
+        """
         values = self.get_full_forecast(country, town)
 
         # given date in unix time

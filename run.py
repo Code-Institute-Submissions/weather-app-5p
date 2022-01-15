@@ -16,7 +16,7 @@ GREEN = '\033[92m'
 unit = ["metric", "°c"]
 country_tuples = []
 
-# Populate tuple list witg country name and iso 2 code
+# Populate tuple list with country name and iso 2 code
 for i in pycountry.countries:
     country_tuples.append((i.name, i.alpha_2))
 
@@ -52,6 +52,9 @@ def print_menu():
 
 
 def clear():
+    """
+    Clears the console and then displays the banner and the value of message
+    """
     os.system("clear")
     print_banner()
     print(message)
@@ -80,7 +83,7 @@ def change_measurement():
         print(f"{RED}Please select a value from the list{WHITE}")
         print("Select a unit of measurement from below")
         print("1) Imperial (Fahrenheit) ")
-        print("2) Metric (Celsius )")    
+        print("2) Metric (Celsius )")  
 
 
 def get_selection_country():
@@ -116,7 +119,8 @@ def get_selection_town():
     print(f"{YELLOW}Note: There is no auto "
           f"completer for town{WHITE}")
     while True:
-        text = input("> Enter Town Name : ")   
+        text = input("> Enter Town Name : ")
+        # Check if entry is blank
         if text == "" or text.isspace():
             clear()
             print(f"{YELLOW}Note: There is no auto "
@@ -269,6 +273,7 @@ def get_previous_weather():
             "\n"+text)
 
 
+# Create wrapper instance
 weather = weather_wrapper.Weather(os.environ.get("API_KEY"), unit[0])
 message = ""
 
@@ -285,7 +290,7 @@ while True:
         print_menu()
         continue
 
-    # Check if selection is greater than 5
+    # Check if selection is greater than possible options
     if int(selection) > 5:
         clear()
         message = (f"{RED}Please enter a number "
@@ -294,7 +299,6 @@ while True:
         continue
 
     # Clear console and reprint screen with asked for data
-
     clear()
     print_menu()
     selection = int(selection)
@@ -323,4 +327,3 @@ while True:
 
     message = ""
     input(f"\n{GREEN}Press Enter to continue!{WHITE}")
-    
