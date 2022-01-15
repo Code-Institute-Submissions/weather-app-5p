@@ -9,8 +9,9 @@ class Weather:
 
     BASE_URL = "http://api.openweathermap.org/data/2.5/"
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, unit):
         self.api_key = api_key
+        self.unit = unit
 
     def get_json_response(self, url):
         response = requests.get(url + f'&APPID={self.api_key}')
@@ -28,7 +29,7 @@ class Weather:
             self.BASE_URL +
             'weather' +
             f'?q={town},{country}'
-            '&units=metric'
+            f'&units={self.unit}'
         )
         return self.get_json_response(request_url)
 
@@ -52,7 +53,7 @@ class Weather:
             f'?lat={str(current_weather["coord"]["lat"])}'
             f'&lon={str(current_weather["coord"]["lon"])}'
             f'&dt={int(timestamp)}'
-            '&units=metric'
+            f'&units={self.unit}'
         )
 
         return self.get_json_response(request_url)
@@ -68,7 +69,7 @@ class Weather:
             self.BASE_URL +
             'forecast'
             f'?q={town},{country}&mode=json'
-            '&units=metric'
+            f'&units={self.unit}'
         )
 
         return self.get_json_response(request_url)

@@ -12,7 +12,7 @@ red_text = '\033[91m'
 yellow_text = '\033[93m'
 white_text = '\033[0m'
 
-message = ""
+unit = ["metric", "°c"]
 country_tuples = []
 
 # Populate tuple list witg country name and iso 2 code
@@ -43,10 +43,42 @@ def print_menu():
     """
     Displays the menu
     """
-    print(message)
     print("1) Get Todays Weather")
     print("2) See the forecast for next 5 days")
     print("3) Get last 5 days weather")
+    print(f"4) Change Unit of measurement, currently {unit[0].capitalize()}")
+    print("5) Exit")
+
+
+def clear():
+    os.system("clear")
+    print_banner()
+
+
+def change_measurement():
+    clear()
+    print("Select a unit of measurement from below")
+    print("1) Imperial (Fahrenheit) ")
+    print("2) Metric (Celsius )")      
+
+    while True:
+        inp = input("> ")
+
+        if not inp.isdigit():
+            pass
+
+        elif int(inp) == 1:
+            return ["imperial", "F"]
+            break  
+
+        elif int(inp) == 2:      
+            return ["metric", "°c"]
+            break
+        clear()
+        print(f"{red_text}Please select a value from the list{white_text}")
+        print("Select a unit of measurement from below")
+        print("1) Imperial (Fahrenheit) ")
+        print("2) Metric (Celsius )")    
 
 
 def get_selection_country():
@@ -104,9 +136,9 @@ def get_todays_weather():
         int(current_weather['sys']['sunset'])).strftime('%H:%M:%S')
 
     return (
-        f"\nAt a temperature of {current_weather['main']['temp']}c "
-        f"with lows of {round(current_weather['main']['temp_min'])}c "
-        f"and highs of {round(current_weather['main']['temp_max'])}c\n"
+        f"\nAt a temperature of {current_weather['main']['temp']}{unit[1]} "
+        f"with lows of {round(current_weather['main']['temp_min'])}{unit[1]} "
+        f"and highs of {round(current_weather['main']['temp_max'])}{unit[1]}\n"
         f"A {current_weather['main']['humidity']}% humidity and "
         f"{current_weather['clouds']['all']}% cloud coverage\n"
         f"Sunrise at {sunrise} and Sunset at {sunset}"
@@ -142,9 +174,9 @@ def get_forecast():
         # If date of forecast is different then append data and clear variables
         if str_date != current_date:
             if current_date != "":
-                text += (f"{current_date} - "
-                         f"{round(current_data[0]/loops, 2)}c - "
-                         f"Humidity {round(current_data[1]/loops,2)}% - "
+                text += (f"{current_date} | "
+                         f"{round(current_data[0]/loops, 2)}{unit[1]} | "
+                         f"Humidity {round(current_data[1]/loops,2)}% | "
                          f"Windspeed {round(current_data[2]/loops, 2)}mps\n")
             current_data = [0, 0, 0]
             loops = 0
@@ -158,10 +190,12 @@ def get_forecast():
         loops += 1
 
     # Append the final data
-    text += (f"{current_date} - {round(current_data[0]/loops, 2)}c - "
-             f"Humidity {round(current_data[1]/loops,2)}% - "
+    text += (f"{current_date} | {round(current_data[0]/loops, 2)}{unit[1]} | "
+             f"Humidity {round(current_data[1]/loops,2)}% | "
              f"Windspeed {round(current_data[2]/loops, 2)}mps\n")
-    return text
+    return ("\n" +
+            f"{yellow_text}Note: Values are averages.{white_text}"
+            + "\n"+text)
 
 
 def get_previous_weather():
@@ -204,48 +238,46 @@ def get_previous_weather():
         avg[3] = round(avg[3] / count, 2)
         return_data.append(avg)
 
-    print(f"{yellow_text}Note: Values are averages.{white_text}")
     text = ""
     for data in return_data:
         text += (
-            f"{str(data[0])} - Temperature @ {data[1]}c - "
-            f"Humidity @ {data[2]} - "
+            f"{str(data[0])} | Temperature @ {data[1]}{unit[1]} | "
+            f"Humidity @ {data[2]} | "
             f"Windspeed @ {data[3]}mps\n")
 
-    return text
+    return ("\n" +
+            f"{yellow_text}Note: Values are averages.{white_text}"
+            + "\n"+text)
 
 
-weather = weather_wrapper.Weather(os.environ.get("API_KEY"))
+weather = weather_wrapper.Weather(os.environ.get("API_KEY"), unit[0])
+message = ""
 
 while True:
-    # Clear the console
-    os.system("clear")
-    print_banner()
+    clear()
+    print(message)
     print_menu()
     selection = input("> ")
 
     # Check if something other than a number is entered
     if not selection.isdigit():
-        os.system("clear")
+        clear()
         message = (f"{red_text}Please enter a number "
                    f"from the list below!{white_text}")
-        print_banner()
         print_menu()
         continue
 
-    # Check if selection is greater than 3
-    if int(selection) > 3:
-        os.system("clear")
+    # Check if selection is greater than 5
+    if int(selection) > 5:
+        clear()
         message = (f"{red_text}Please enter a number "
                    f"from the list below!{white_text}")
-        print_banner()
         print_menu()
         continue
 
-    message = ""
     # Clear console and reprint screen with asked for data
-    os.system("clear")
-    print_banner()
+    message = ""
+    clear()
     print_menu()
     selection = int(selection)
 
@@ -259,6 +291,10 @@ while True:
         print(get_previous_weather())
 
     if selection == 4:
-        pass
+        unit = change_measurement()
+        weather.unit = unit[0]
+        print(weather.unit)
+        print(f"Now showing data in {unit[0].capitalize()}")
 
     input("Press Enter to continue!")
+    
