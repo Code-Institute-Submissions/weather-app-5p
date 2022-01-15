@@ -148,7 +148,8 @@ def get_todays_weather():
 
     clear()
     return (
-        f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, {town}{WHITE}"
+        f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}," 
+        f"{town}{WHITE}"
         f"\nAt a temperature of {current_weather['main']['temp']}{unit[1]} "
         f"with lows of {round(current_weather['main']['temp_min'])}{unit[1]} "
         f"and highs of {round(current_weather['main']['temp_max'])}{unit[1]}\n"
@@ -209,8 +210,9 @@ def get_forecast():
     clear()
     return ("\n" +
             f"{YELLOW}Note: Values are averages.{WHITE}\n"
-            + f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, {town}{WHITE}"
-            + "\n"+text)
+            f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, "
+            f"{town}{WHITE}"
+            "\n"+text)
 
 
 def get_previous_weather():
@@ -262,8 +264,9 @@ def get_previous_weather():
 
     return ("\n" +
             f"{YELLOW}Note: Values are averages.{WHITE}\n"
-            + f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, {town}{WHITE}"
-            + "\n"+text)
+            f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, "
+            f"{town}{WHITE}"
+            "\n"+text)
 
 
 weather = weather_wrapper.Weather(os.environ.get("API_KEY"), unit[0])
@@ -313,6 +316,10 @@ while True:
         weather.unit = unit[0]
         print(weather.unit)
         print(f"Now showing data in {unit[0].capitalize()}")
+
+    if selection == 5:
+        print("Thank you for using this app! Goodbye.")
+        exit()
 
     message = ""
     input(f"\n{GREEN}Press Enter to continue!{WHITE}")
