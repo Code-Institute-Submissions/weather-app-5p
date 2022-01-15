@@ -8,9 +8,10 @@ if os.path.exists('env.py'):
     import env  # noqa
 
 # Codes for changing text colors
-red_text = '\033[91m'
-yellow_text = '\033[93m'
-white_text = '\033[0m'
+RED = '\033[91m'
+YELLOW = '\033[93m'
+WHITE = '\033[0m'
+GREEN = '\033[92m'
 
 unit = ["metric", "°c"]
 country_tuples = []
@@ -76,7 +77,7 @@ def change_measurement():
             return ["metric", "°c"]
             break
         clear()
-        print(f"{red_text}Please select a value from the list{white_text}")
+        print(f"{RED}Please select a value from the list{WHITE}")
         print("Select a unit of measurement from below")
         print("1) Imperial (Fahrenheit) ")
         print("2) Metric (Celsius )")    
@@ -92,7 +93,7 @@ def get_selection_country():
 
     clear()
 
-    print(f"{yellow_text}Note: Auto completer is case sensitive{white_text}")
+    print(f"{YELLOW}Note: Auto completer is case sensitive{WHITE}")
 
     # Loop until a valid country has been entered
     while True:
@@ -104,23 +105,23 @@ def get_selection_country():
         if text in country_list:
             return text
         clear()
-        print(f"{yellow_text}Note: Auto completer "
-              f"is case sensitive{white_text}")
-        print(f"{red_text}Please select a country "
-              f"using the auto completer{white_text}")
+        print(f"{YELLOW}Note: Auto completer "
+              f"is case sensitive{WHITE}")
+        print(f"{RED}Please select a country "
+              f"using the auto completer{WHITE}")
 
 
 def get_selection_town():
     clear()
-    print(f"{yellow_text}Note: There is no auto "
-          f"completer for town{white_text}")
+    print(f"{YELLOW}Note: There is no auto "
+          f"completer for town{WHITE}")
     while True:
         text = input("> Enter Town Name : ")   
         if text == "" or text.isspace():
             clear()
-            print(f"{yellow_text}Note: There is no auto "
-                  f"completer for town{white_text}")
-            print(f"{red_text}Please enter a town{white_text}")
+            print(f"{YELLOW}Note: There is no auto "
+                  f"completer for town{WHITE}")
+            print(f"{RED}Please enter a town{WHITE}")
             continue
         return text
 
@@ -141,17 +142,19 @@ def get_todays_weather():
 
     # Parse sunrise sunset from timestamp to a readable date
     sunrise = datetime.utcfromtimestamp(
-        int(current_weather['sys']['sunrise'])).strftime('%H:%M:%S')
+        int(current_weather['sys']['sunrise'])).strftime('%H:%M')
     sunset = datetime.utcfromtimestamp(
-        int(current_weather['sys']['sunset'])).strftime('%H:%M:%S')
+        int(current_weather['sys']['sunset'])).strftime('%H:%M')
 
+    clear()
     return (
+        f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, {town}{WHITE}"
         f"\nAt a temperature of {current_weather['main']['temp']}{unit[1]} "
         f"with lows of {round(current_weather['main']['temp_min'])}{unit[1]} "
         f"and highs of {round(current_weather['main']['temp_max'])}{unit[1]}\n"
         f"A {current_weather['main']['humidity']}% humidity and "
         f"{current_weather['clouds']['all']}% cloud coverage\n"
-        f"Sunrise at {sunrise} and Sunset at {sunset}"
+        f"Sunrise at {sunrise} and Sunset at {sunset}\n"
     )
 
 
@@ -203,8 +206,10 @@ def get_forecast():
     text += (f"{current_date} | {round(current_data[0]/loops, 2)}{unit[1]} | "
              f"Humidity {round(current_data[1]/loops,2)}% | "
              f"Windspeed {round(current_data[2]/loops, 2)}mps\n")
+    clear()
     return ("\n" +
-            f"{yellow_text}Note: Values are averages.{white_text}"
+            f"{YELLOW}Note: Values are averages.{WHITE}\n"
+            + f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, {town}{WHITE}"
             + "\n"+text)
 
 
@@ -256,7 +261,8 @@ def get_previous_weather():
             f"Windspeed {data[3]}mps\n")
 
     return ("\n" +
-            f"{yellow_text}Note: Values are averages.{white_text}"
+            f"{YELLOW}Note: Values are averages.{WHITE}\n"
+            + f"{GREEN}{[h for h in country_tuples if h[1] == country][0][0]}, {town}{WHITE}"
             + "\n"+text)
 
 
@@ -271,16 +277,16 @@ while True:
     # Check if something other than a number is entered
     if not selection.isdigit():
         clear()
-        message = (f"{red_text}Please enter a number "
-                   f"from the list below!{white_text}")
+        message = (f"{RED}Please enter a number "
+                   f"from the list below!{WHITE}")
         print_menu()
         continue
 
     # Check if selection is greater than 5
     if int(selection) > 5:
         clear()
-        message = (f"{red_text}Please enter a number "
-                   f"from the list below!{white_text}")
+        message = (f"{RED}Please enter a number "
+                   f"from the list below!{WHITE}")
         print_menu()
         continue
 
@@ -309,5 +315,5 @@ while True:
         print(f"Now showing data in {unit[0].capitalize()}")
 
     message = ""
-    input("Press Enter to continue!")
+    input(f"\n{GREEN}Press Enter to continue!{WHITE}")
     
