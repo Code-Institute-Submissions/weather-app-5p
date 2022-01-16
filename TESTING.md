@@ -71,4 +71,5 @@ Using Postman to make a call to London, Canada
 ![](documentation/postman-canada-london-correct.png)
 
 # Bugs
-To my knowledge there are currently no bugs.
+When entering a country into the country input it will treat words after a space a new word rather than the whole input as one phrase.
+Other than that there are no known bugs
