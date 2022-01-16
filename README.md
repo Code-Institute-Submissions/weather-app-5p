@@ -207,9 +207,14 @@ Alternatively, if using Gitpod, you can click below to create your own workspace
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/edenobrega/weather-app-5p)
 
 In order to install the required python packages for this application locally, use the following command in your terminal:
-- pip3 install -r requirements.txt
+```pip
+pip3 install -r requirements.txt
+```
+
 Once you've got the packages installed, in order to freeze these packages for deployment on Heroku, type the following:
-- pip3 freeze --local > requirements.txt
+```
+pip3 freeze --local > requirements.txt
+```
 
 # Credits
 Used code from [here](https://stackoverflow.com/questions/287871/how-to-print-colored-text-to-the-terminal) for coloring the terminal

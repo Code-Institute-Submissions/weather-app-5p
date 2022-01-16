@@ -60,5 +60,15 @@ Unit of measurement in menu changing afterwards
 
 ![](documentation/menu-imperial.png)
 
+
+Before creating the wrapper (see "API Wrapper" in README.md) I used postman so that I could see first-hand what data was returned, as shown below
+
+![](documentation/postman-checking.png)
+
+
+Using Postman to make a call to London, Canada
+
+![](documentation/postman-canada-london-correct.png)
+
 # Bugs
 To my knowledge there are currently no bugs.
