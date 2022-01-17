@@ -218,5 +218,7 @@ pip3 freeze --local > requirements.txt
 
 # Credits
 Used code from [here](https://stackoverflow.com/questions/287871/how-to-print-colored-text-to-the-terminal) for coloring the terminal
+
 [Postman](https://www.postman.com/) to test the api before implementing in code
+
 [OpenWeatherMap](https://openweathermap.org/) api to get weather data live
